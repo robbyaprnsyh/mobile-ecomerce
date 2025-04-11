@@ -1,5 +1,6 @@
 import 'package:ecommerce/app/data/produk_response.dart';
 import 'package:ecommerce/app/modules/dashboard/views/index_view.dart';
+import 'package:ecommerce/app/modules/dashboard/views/profile_view.dart';
 import 'package:ecommerce/app/utils/api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,14 +21,6 @@ class DashboardController extends GetxController {
   }
 
   var yourProduk = <ProdukResponse>[].obs;
-
-  Future<void> getYourProduk() async {
-    final response = await _getConnect.get(
-      BaseUrl.yourProduk,
-      headers: {'Authorization': "Bearer $token"},
-      contentType: "application/json",
-    );
-  }
 
 TextEditingController nameController = TextEditingController();
 TextEditingController descriptionController = TextEditingController();
@@ -55,7 +48,6 @@ void addProduk() async {
     descriptionController.clear();
     update();
     getProduk();
-    getYourProduk();
     Get.close(1);
   } else {
     Get.snackbar(
@@ -74,12 +66,12 @@ void addProduk() async {
 
   final List<Widget> pages = [
     IndexView(),
+    ProfileView(),
   ];
 
   @override
   void onInit() {
     getProduk();
-    getYourProduk();
     super.onInit();
   }
 

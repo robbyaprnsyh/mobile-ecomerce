@@ -1,3 +1,4 @@
+import 'package:ecommerce/app/modules/dashboard/bindings/dashboard_binding.dart';
 import 'package:ecommerce/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:ecommerce/app/utils/api.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class LoginController extends GetxController {
     if (response.statusCode == 200) {
       authToken.write('auth_token', response.body['access_token']);
       authToken.write('user_id', response.body['user']['id']);
-      Get.offAll(() => const DashboardView());
+      Get.offAll(() => const DashboardView(), binding: DashboardBinding());
     } else {
       Get.snackbar(
         'Error',

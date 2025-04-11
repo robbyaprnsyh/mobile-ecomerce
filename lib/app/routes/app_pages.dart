@@ -11,8 +11,6 @@ import '../modules/login/views/login_view.dart';
 import '../modules/produk/bindings/produk_binding.dart';
 import '../modules/produk/views/produk_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
-import '../modules/profile/bindings/profile_binding.dart';
-import '../modules/profile/views/profile_view.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
@@ -46,18 +44,6 @@ class AppPages {
       name: _Paths.DASHBOARD,
       page: () => const DashboardView(),
       binding: DashboardBinding(),
-    ),
-    GetPage(
-      name: _Paths.PROFILE,
-      page: () => const ProfileView(),
-      binding: ProfileBinding(),
-      children: [
-        GetPage(
-          name: _Paths.PROFILE,
-          page: () => const ProfileView(),
-          binding: ProfileBinding(),
-        ),
-      ],
     ),
     GetPage(
       name: _Paths.SUB_KATEGORI,
