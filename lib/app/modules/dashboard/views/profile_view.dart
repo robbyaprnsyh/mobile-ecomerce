@@ -12,32 +12,94 @@ class ProfileView extends GetView<ProfileController> {
     final userId = int.tryParse(storage.read('user_id').toString());
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.blue.shade50,
       appBar: AppBar(
         title: const Text(
           'Profile',
-          style:
-              TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 0, 126, 184),
-        iconTheme: const IconThemeData(
-            color: Colors.white), 
-        actionsIconTheme:
-            const IconThemeData(color: Colors.white),         actions: [
+        backgroundColor: const Color(0xFF007EB8),
+        iconTheme: const IconThemeData(color: Colors.white),
+        actionsIconTheme: const IconThemeData(color: Colors.white),
+        actions: [
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () {
-              Get.defaultDialog(
-                title: "Konfirmasi",
-                middleText: "Apakah kamu yakin ingin logout?",
-                textCancel: "Batal",
-                textConfirm: "Logout",
-                confirmTextColor: Colors.white,
-                onConfirm: () {
-                  Get.back();
-                  controller.logout();
-                },
+              Get.dialog(
+                Dialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.logout,
+                            size: 50, color: Color(0xFF007EB8)),
+                        const SizedBox(height: 16),
+                        const Text(
+                          "Keluar dari akun?",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF007EB8),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        const Text(
+                          "Apakah kamu yakin ingin logout dari aplikasi?",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.black87),
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: OutlinedButton(
+                                onPressed: () => Get.back(),
+                                style: OutlinedButton.styleFrom(
+                                  side: const BorderSide(
+                                      color: Color(0xFF007EB8)),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                child: const Text(
+                                  "Batal",
+                                  style: TextStyle(color: Color(0xFF007EB8)),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Get.back();
+                                  controller.logout();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF007EB8),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                child: const Text(
+                                  "Logout",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
               );
             },
           ),
@@ -67,13 +129,13 @@ class ProfileView extends GetView<ProfileController> {
                   ClipPath(
                     clipper: ProfileClipper(),
                     child: Container(
-                      height: 220,
+                      height: 200,
                       width: double.infinity,
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            Color.fromARGB(255, 40, 147, 197),
-                            Color.fromARGB(255, 75, 153, 190)
+                            Color(0xFF2893C5),
+                            Color(0xFF4B99BE),
                           ],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
@@ -82,27 +144,43 @@ class ProfileView extends GetView<ProfileController> {
                     ),
                   ),
                   Positioned(
-                    top: 120,
+                    top: 110,
                     left: 0,
                     right: 0,
                     child: Center(
                       child: Column(
                         children: [
-                          CircleAvatar(
-                            radius: 55,
-                            backgroundColor: Colors.white,
+                          Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black26,
+                                  blurRadius: 8,
+                                  offset: Offset(0, 4),
+                                )
+                              ],
+                            ),
                             child: CircleAvatar(
-                              radius: 50,
-                              backgroundImage: NetworkImage(
-                                'http://192.168.80.83:8000/public/images/users/${user.profile}',
+                              radius: 55,
+                              backgroundColor: Colors.blue.shade600,
+                              child: Text(
+                                _getInitial(user.name),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: 12),
                           Text(
                             user.name ?? "-",
                             style: const TextStyle(
-                              fontSize: 20,
+                              fontSize: 22,
                               fontWeight: FontWeight.bold,
                               color: Colors.black87,
                             ),
@@ -113,7 +191,7 @@ class ProfileView extends GetView<ProfileController> {
                   ),
                 ],
               ),
-              const SizedBox(height: 100),
+              const SizedBox(height: 110),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Column(
@@ -126,11 +204,12 @@ class ProfileView extends GetView<ProfileController> {
                         "Jenis Kelamin", user.jenisKelamin ?? "-", Icons.wc),
                     buildInfoCard(
                         "Tanggal Lahir", user.tanggalLahir ?? "-", Icons.cake),
-                    buildInfoCard("Role", user.role ?? "-", Icons.person),
+                    buildInfoCard(
+                        "Role", user.role ?? "-", Icons.person_outline),
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
             ],
           ),
         );
@@ -138,11 +217,16 @@ class ProfileView extends GetView<ProfileController> {
     );
   }
 
+  String _getInitial(String? name) {
+    if (name == null || name.isEmpty) return "?";
+    return name.trim().substring(0, 1).toUpperCase();
+  }
+
   Widget buildInfoCard(String title, String value, IconData icon) {
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: ListTile(
         title: Text(
           title,
@@ -152,7 +236,14 @@ class ProfileView extends GetView<ProfileController> {
           value,
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
-        leading: Icon(icon, color: Colors.indigo),
+        leading: Container(
+          decoration: BoxDecoration(
+            color: Colors.blue.shade100,
+            shape: BoxShape.circle,
+          ),
+          padding: const EdgeInsets.all(10),
+          child: Icon(icon, color: Colors.blue.shade700),
+        ),
       ),
     );
   }
@@ -162,9 +253,13 @@ class ProfileClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
-    path.lineTo(0, size.height - 50);
+    path.lineTo(0, size.height - 30); 
     path.quadraticBezierTo(
-        size.width / 2, size.height + 40, size.width, size.height - 50);
+      size.width / 2,
+      size.height + 20,
+      size.width,
+      size.height - 30,
+    );
     path.lineTo(size.width, 0);
     path.close();
     return path;

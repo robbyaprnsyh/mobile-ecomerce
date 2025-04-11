@@ -25,11 +25,54 @@ class LoginController extends GetxController {
   }
 
   void loginNow() async {
+    final email = emailController.text.trim();
+    final password = passwordController.text;
+
+    // Validasi field kosong
+    if (email.isEmpty || password.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Semua field harus diisi.',
+        icon: const Icon(Icons.warning, color: Colors.white),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.orange.shade600,
+        colorText: Colors.white,
+        borderRadius: 12,
+        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        padding: const EdgeInsets.all(16),
+        duration: const Duration(seconds: 3),
+        isDismissible: true,
+        forwardAnimationCurve: Curves.easeOutBack,
+      );
+      return;
+    }
+
+    // Validasi format email
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (!emailRegex.hasMatch(email)) {
+      Get.snackbar(
+        'Error',
+        'Format email tidak valid.',
+        icon: const Icon(Icons.warning, color: Colors.white),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.orange.shade600,
+        colorText: Colors.white,
+        borderRadius: 12,
+        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        padding: const EdgeInsets.all(16),
+        duration: const Duration(seconds: 3),
+        isDismissible: true,
+        forwardAnimationCurve: Curves.easeOutBack,
+      );
+      return;
+    }
+
+    // Kirim request jika lolos validasi
     final response = await _getConnect.post(
       BaseUrl.login,
       {
-        'email': emailController.text,
-        'password': passwordController.text,
+        'email': email,
+        'password': password,
       },
     );
 
@@ -37,15 +80,35 @@ class LoginController extends GetxController {
       authToken.write('auth_token', response.body['access_token']);
       authToken.write('user_id', response.body['user']['id']);
       Get.offAll(() => const DashboardView(), binding: DashboardBinding());
+
+      Get.snackbar(
+        'Success',
+        'Login berhasil.',
+        icon: const Icon(Icons.check_circle, color: Colors.white),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.green.shade600,
+        colorText: Colors.white,
+        borderRadius: 12,
+        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        padding: const EdgeInsets.all(16),
+        duration: const Duration(seconds: 3),
+        isDismissible: true,
+        forwardAnimationCurve: Curves.easeOutBack,
+      );
     } else {
       Get.snackbar(
         'Error',
-        response.body['error'].toString(),
-        icon: const Icon(Icons.error),
-        backgroundColor: Colors.red,
+        response.body['error']?.toString() ?? 'Login gagal',
+        icon: const Icon(Icons.error, color: Colors.white),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red.shade600,
         colorText: Colors.white,
-        forwardAnimationCurve: Curves.bounceIn,
-        margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
+        borderRadius: 12,
+        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        padding: const EdgeInsets.all(16),
+        duration: const Duration(seconds: 4),
+        isDismissible: true,
+        forwardAnimationCurve: Curves.easeOutBack,
       );
     }
   }
