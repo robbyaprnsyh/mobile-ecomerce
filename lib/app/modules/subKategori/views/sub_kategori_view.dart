@@ -28,6 +28,10 @@ class SubKategoriView extends GetView<SubKategoriController> {
               return Card(
                 margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.green.withOpacity(0.1),
+                    child: const Icon(Icons.inventory, color: Colors.green),
+                  ),
                   title: Text(subKategori.name ?? '-'),
                   subtitle: Text('Kategori: ${subKategori.kategori?.name ?? '-'}'),
                   // onTap: () {

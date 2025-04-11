@@ -11,6 +11,12 @@ class LoginController extends GetxController {
   TextEditingController passwordController = TextEditingController();
   final authToken = GetStorage();
 
+  var obscureText = true.obs;
+
+  void togglePasswordVisibility() {
+    obscureText.value = !obscureText.value;
+  }
+
   @override
   void onClose() {
     emailController.dispose();

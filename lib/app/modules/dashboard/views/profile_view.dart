@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-
 class ProfileView extends GetView<ProfileController> {
   const ProfileView({super.key});
 
@@ -15,13 +14,32 @@ class ProfileView extends GetView<ProfileController> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: const Text('Profile Pengguna'),
+        title: const Text(
+          'Profile',
+          style:
+              TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 0, 126, 184),
-        actions: [
+        iconTheme: const IconThemeData(
+            color: Colors.white), 
+        actionsIconTheme:
+            const IconThemeData(color: Colors.white),         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () => _showLogoutConfirmationDialog(context),
+            onPressed: () {
+              Get.defaultDialog(
+                title: "Konfirmasi",
+                middleText: "Apakah kamu yakin ingin logout?",
+                textCancel: "Batal",
+                textConfirm: "Logout",
+                confirmTextColor: Colors.white,
+                onConfirm: () {
+                  Get.back();
+                  controller.logout();
+                },
+              );
+            },
           ),
         ],
       ),
@@ -54,8 +72,8 @@ class ProfileView extends GetView<ProfileController> {
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            Color.fromARGB(255, 0, 126, 184),
-                            Color.fromARGB(255, 16, 157, 222)
+                            Color.fromARGB(255, 40, 147, 197),
+                            Color.fromARGB(255, 75, 153, 190)
                           ],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
@@ -120,7 +138,6 @@ class ProfileView extends GetView<ProfileController> {
     );
   }
 
-  // Card data profil
   Widget buildInfoCard(String title, String value, IconData icon) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 10),
@@ -136,33 +153,6 @@ class ProfileView extends GetView<ProfileController> {
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
         leading: Icon(icon, color: Colors.indigo),
-      ),
-    );
-  }
-
-  // Dialog konfirmasi logout
-  void _showLogoutConfirmationDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text("Konfirmasi Logout"),
-        content: const Text("Apakah kamu yakin ingin logout?"),
-        actions: [
-          TextButton(
-            child: const Text("Batal"),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.grey,
-            ),
-            child: const Text("Logout"),
-            onPressed: () {
-              Navigator.of(context).pop(); // tutup dialog
-              controller.logout(); // lakukan logout
-            },
-          ),
-        ],
       ),
     );
   }

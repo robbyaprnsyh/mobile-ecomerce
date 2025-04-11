@@ -12,7 +12,7 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     HomeController controller = Get.put(HomeController()); 
     return Scaffold(
-      backgroundColor: HexColor('#FFFFFF'),
+      backgroundColor: HexColor('#F5F5DC'),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

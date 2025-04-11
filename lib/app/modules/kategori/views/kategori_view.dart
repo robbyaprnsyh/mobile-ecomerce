@@ -28,10 +28,14 @@ class KategoriView extends GetView<KategoriController> {
               return Card(
                 margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.teal.withOpacity(0.1),
+                    child: const Icon(Icons.category, color: Colors.teal),
+                  ),
                   title: Text(kategori.name ?? '-'),
                   subtitle: Text('Dibuat: ${kategori.createdAt}'),
                   // onTap: () {
-                  //   Get.snackbar('Info', 'Anda memilih ${subKategori.name}');
+                  //   Get.snackbar('Info', 'Anda memilih ${kategori.name}');
                   // },
                 ),
               );

@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:ecommerce/app/modules/login/views/login_view.dart';
-import 'package:ecommerce/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+
+import '../../../routes/app_pages.dart';
 
 class HomeController extends GetxController {
   late Timer _pindah;
@@ -15,15 +15,9 @@ class HomeController extends GetxController {
       const Duration(seconds: 4),
       () {
         if (authToken.read('token') == null) {
-          Get.off(
-            () => const LoginView(),
-            transition: Transition.leftToRight,
-          );
+          Get.offNamed(Routes.LOGIN); 
         } else {
-          Get.off(
-            () => const DashboardView(),
-            transition: Transition.leftToRight,
-          );
+          Get.offNamed(Routes.DASHBOARD); 
         }
       },
     );

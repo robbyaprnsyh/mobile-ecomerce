@@ -25,30 +25,15 @@ class ProdukView extends GetView<ProdukController> {
           itemCount: controller.produkList.length,
           itemBuilder: (context, index) {
             final produk = controller.produkList[index];
-            final imageUrl = produk.images?.isNotEmpty == true ? produk.images!.first : null;
 
             return Card(
               margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               child: ListTile(
-                leading: imageUrl != null
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
-                          imageUrl,
-                          width: 60,
-                          height: 60,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) =>
-                              const Icon(Icons.image, size: 60),
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return const Center(
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            );
-                          },
-                        ),
-                      )
-                    : const Icon(Icons.image, size: 60),
+                leading: CircleAvatar(
+                  backgroundColor: Colors.blue.withOpacity(0.1),
+                  radius: 28,
+                  child: const Icon(Icons.shopping_bag, color: Colors.blue),
+                ),
                 title: Text(produk.namaProduk ?? '-'),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

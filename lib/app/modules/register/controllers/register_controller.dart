@@ -1,4 +1,4 @@
-import 'package:ecommerce/app/modules/dashboard/views/dashboard_view.dart';
+import 'package:ecommerce/app/routes/app_pages.dart';
 import 'package:ecommerce/app/utils/api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,11 +6,12 @@ import 'package:get_storage/get_storage.dart';
 
 class RegisterController extends GetxController {
   final _getConnect = GetConnect();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController passwordConfirmationController =
-      TextEditingController();
+
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final passwordConfirmationController = TextEditingController();
+
   final authToken = GetStorage();
 
   void registerNow() async {
@@ -26,28 +27,32 @@ class RegisterController extends GetxController {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       authToken.write('token', response.body['token']);
-      Get.offAll(() => const DashboardView());
+
+      Get.snackbar(
+        'Success',
+        'Registrasi berhasil, silakan login.',
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 2),
+        margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
+      );
+
+      Future.delayed(const Duration(seconds: 2), () {
+        if (Get.isRegistered<RegisterController>()) {
+          Get.delete<RegisterController>();
+        }
+        Get.toNamed(Routes.LOGIN);
+      });
     } else {
       Get.snackbar(
         'Error',
-        response.body['error']?.toString() ?? 'Registration failed',
+        response.body['error']?.toString() ?? 'Registrasi gagal',
         icon: const Icon(Icons.error),
         backgroundColor: Colors.red,
         colorText: Colors.white,
-        forwardAnimationCurve: Curves.bounceIn,
         margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
       );
     }
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
   }
 
   @override
