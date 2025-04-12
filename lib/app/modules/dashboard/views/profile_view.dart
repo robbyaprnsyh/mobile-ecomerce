@@ -2,6 +2,7 @@ import 'package:ecommerce/app/modules/profile/controllers/profile_controller.dar
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 
 class ProfileView extends GetView<ProfileController> {
   const ProfileView({super.key});
@@ -29,7 +30,8 @@ class ProfileView extends GetView<ProfileController> {
               Get.dialog(
                 Dialog(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   child: Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
@@ -120,6 +122,16 @@ class ProfileView extends GetView<ProfileController> {
           return const Center(child: Text("Data user tidak ditemukan."));
         }
 
+        final tanggalLahir = user.tanggalLahir != null
+            ? DateFormat('dd MMMM yyyy', 'id_ID')
+                .format(DateTime.parse(user.tanggalLahir!))
+            : '-';
+
+        final dibuat = user.createdAt != null
+            ? DateFormat('dd MMMM yyyy', 'id_ID')
+                .format(DateTime.parse(user.createdAt!))
+            : '-';
+
         return SingleChildScrollView(
           child: Column(
             children: [
@@ -166,14 +178,37 @@ class ProfileView extends GetView<ProfileController> {
                             child: CircleAvatar(
                               radius: 55,
                               backgroundColor: Colors.blue.shade600,
-                              child: Text(
-                                _getInitial(user.name),
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                              child: (user.profile != null &&
+                                      user.profile!.isNotEmpty)
+                                  ? ClipOval(
+                                      child: Image.network(
+                                        'http://192.168.80.83:8000/${user.profile}',
+                                        width: 110,
+                                        height: 110,
+                                        fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                          return Center(
+                                            child: Text(
+                                              _getInitial(user.name),
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 28,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    )
+                                  : Text(
+                                      _getInitial(user.name),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                             ),
                           ),
                           const SizedBox(height: 12),
@@ -203,9 +238,8 @@ class ProfileView extends GetView<ProfileController> {
                     buildInfoCard(
                         "Jenis Kelamin", user.jenisKelamin ?? "-", Icons.wc),
                     buildInfoCard(
-                        "Tanggal Lahir", user.tanggalLahir ?? "-", Icons.cake),
-                    buildInfoCard(
-                        "Role", user.role ?? "-", Icons.person_outline),
+                        "Tanggal Lahir", tanggalLahir, Icons.calendar_today),
+                    buildInfoCard("Dibuat", dibuat, Icons.access_time),
                   ],
                 ),
               ),
@@ -253,7 +287,7 @@ class ProfileClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
-    path.lineTo(0, size.height - 30); 
+    path.lineTo(0, size.height - 30);
     path.quadraticBezierTo(
       size.width / 2,
       size.height + 20,
