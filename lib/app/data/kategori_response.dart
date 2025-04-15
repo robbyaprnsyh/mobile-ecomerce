@@ -1,15 +1,15 @@
 class KategoriResponse {
   bool? success;
-  List<Data>? data;
+  List<DataKategori>? data;
 
   KategoriResponse({this.success, this.data});
 
   KategoriResponse.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <DataKategori>[];
       json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
+        data!.add(DataKategori.fromJson(v));
       });
     }
   }
@@ -24,15 +24,15 @@ class KategoriResponse {
   }
 }
 
-class Data {
+class DataKategori {
   int? id;
   String? name;
   String? createdAt;
   String? updatedAt;
 
-  Data({this.id, this.name, this.createdAt, this.updatedAt});
+  DataKategori({this.id, this.name, this.createdAt, this.updatedAt});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  DataKategori.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     createdAt = json['created_at'];

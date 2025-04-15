@@ -6,7 +6,7 @@ class ProdukResponse {
   int? subKategoriId;
   String? namaProduk;
   String? hpp;
-  String? harga;
+  double? harga;
   int? stok;
   int? diskon;
   String? deskripsi;
@@ -39,7 +39,9 @@ class ProdukResponse {
     subKategoriId = json['sub_kategori_id'];
     namaProduk = json['nama_produk'];
     hpp = json['hpp'];
-    harga = json['harga'];
+    harga = json['harga'] != null
+        ? double.tryParse(json['harga'].toString())
+        : null;
     stok = json['stok'];
     diskon = json['diskon'];
     deskripsi = json['deskripsi'];
@@ -61,7 +63,7 @@ class ProdukResponse {
     data['sub_kategori_id'] = subKategoriId;
     data['nama_produk'] = namaProduk;
     data['hpp'] = hpp;
-    data['harga'] = harga;
+    data['harga'] = harga?.toString();
     data['stok'] = stok;
     data['diskon'] = diskon;
     data['deskripsi'] = deskripsi;

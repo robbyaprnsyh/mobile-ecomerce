@@ -168,14 +168,22 @@ class ProfileView extends GetView<ProfileController> {
                             child: CircleAvatar(
                               radius: 55,
                               backgroundColor: Colors.blue.shade600,
-                              child: Text(
-                                _getInitial(user.name),
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                              backgroundImage: (user.profile != null &&
+                                      user.profile!.isNotEmpty)
+                                  ? NetworkImage(
+                                      'http://192.168.207.83:8000/gambar_profile/${user.profile}')
+                                  : null,
+                              child: (user.profile == null ||
+                                      user.profile!.isEmpty)
+                                  ? Text(
+                                      _getInitial(user.name),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  : null,
                             ),
                           ),
                           const SizedBox(height: 12),
