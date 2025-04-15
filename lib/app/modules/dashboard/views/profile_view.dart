@@ -15,10 +15,7 @@ class ProfileView extends GetView<ProfileController> {
     return Scaffold(
       backgroundColor: Colors.blue.shade50,
       appBar: AppBar(
-        title: const Text(
-          'Profile',
-          style: TextStyle(color: Colors.white),
-        ),
+        title: const Text('Profile', style: TextStyle(color: Colors.white)),
         centerTitle: true,
         backgroundColor: const Color(0xFF007EB8),
         iconTheme: const IconThemeData(color: Colors.white),
@@ -44,20 +41,16 @@ class ProfileView extends GetView<ProfileController> {
                         const Icon(Icons.logout,
                             size: 50, color: Color(0xFF007EB8)),
                         const SizedBox(height: 16),
-                        const Text(
-                          "Keluar dari akun?",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF007EB8),
-                          ),
-                        ),
+                        const Text("Keluar dari akun?",
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF007EB8))),
                         const SizedBox(height: 10),
                         const Text(
-                          "Apakah kamu yakin ingin logout dari aplikasi?",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.black87),
-                        ),
+                            "Apakah kamu yakin ingin logout dari aplikasi?",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.black87)),
                         const SizedBox(height: 20),
                         Row(
                           children: [
@@ -68,13 +61,10 @@ class ProfileView extends GetView<ProfileController> {
                                   side: const BorderSide(
                                       color: Color(0xFF007EB8)),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
+                                      borderRadius: BorderRadius.circular(12)),
                                 ),
-                                child: const Text(
-                                  "Batal",
-                                  style: TextStyle(color: Color(0xFF007EB8)),
-                                ),
+                                child: const Text("Batal",
+                                    style: TextStyle(color: Color(0xFF007EB8))),
                               ),
                             ),
                             const SizedBox(width: 10),
@@ -87,13 +77,10 @@ class ProfileView extends GetView<ProfileController> {
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFF007EB8),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
+                                      borderRadius: BorderRadius.circular(12)),
                                 ),
-                                child: const Text(
-                                  "Logout",
-                                  style: TextStyle(color: Colors.white),
-                                ),
+                                child: const Text("Logout",
+                                    style: TextStyle(color: Colors.white)),
                               ),
                             ),
                           ],
@@ -122,15 +109,21 @@ class ProfileView extends GetView<ProfileController> {
           return const Center(child: Text("Data user tidak ditemukan."));
         }
 
-        final tanggalLahir = user.tanggalLahir != null
-            ? DateFormat('dd MMMM yyyy', 'id_ID')
-                .format(DateTime.parse(user.tanggalLahir!))
-            : '-';
+        String tanggalLahir = '-';
+        if (user.tanggalLahir != null && user.tanggalLahir!.isNotEmpty) {
+          try {
+            tanggalLahir = DateFormat('dd MMMM yyyy', 'id_ID')
+                .format(DateTime.parse(user.tanggalLahir!));
+          } catch (_) {}
+        }
 
-        final dibuat = user.createdAt != null
-            ? DateFormat('dd MMMM yyyy', 'id_ID')
-                .format(DateTime.parse(user.createdAt!))
-            : '-';
+        String dibuat = '-';
+        if (user.createdAt != null && user.createdAt!.isNotEmpty) {
+          try {
+            dibuat = DateFormat('dd MMMM yyyy', 'id_ID')
+                .format(DateTime.parse(user.createdAt!));
+          } catch (_) {}
+        }
 
         return SingleChildScrollView(
           child: Column(
@@ -145,10 +138,7 @@ class ProfileView extends GetView<ProfileController> {
                       width: double.infinity,
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [
-                            Color(0xFF2893C5),
-                            Color(0xFF4B99BE),
-                          ],
+                          colors: [Color(0xFF2893C5), Color(0xFF4B99BE)],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
@@ -178,37 +168,14 @@ class ProfileView extends GetView<ProfileController> {
                             child: CircleAvatar(
                               radius: 55,
                               backgroundColor: Colors.blue.shade600,
-                              child: (user.profile != null &&
-                                      user.profile!.isNotEmpty)
-                                  ? ClipOval(
-                                      child: Image.network(
-                                        'http://192.168.80.83:8000/${user.profile}',
-                                        width: 110,
-                                        height: 110,
-                                        fit: BoxFit.cover,
-                                        errorBuilder:
-                                            (context, error, stackTrace) {
-                                          return Center(
-                                            child: Text(
-                                              _getInitial(user.name),
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 28,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    )
-                                  : Text(
-                                      _getInitial(user.name),
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 28,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+                              child: Text(
+                                _getInitial(user.name),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
                           const SizedBox(height: 12),
@@ -262,14 +229,10 @@ class ProfileView extends GetView<ProfileController> {
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: ListTile(
-        title: Text(
-          title,
-          style: const TextStyle(fontSize: 14, color: Colors.grey),
-        ),
-        subtitle: Text(
-          value,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-        ),
+        title: Text(title,
+            style: const TextStyle(fontSize: 14, color: Colors.grey)),
+        subtitle: Text(value,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
         leading: Container(
           decoration: BoxDecoration(
             color: Colors.blue.shade100,
@@ -289,11 +252,7 @@ class ProfileClipper extends CustomClipper<Path> {
     Path path = Path();
     path.lineTo(0, size.height - 30);
     path.quadraticBezierTo(
-      size.width / 2,
-      size.height + 20,
-      size.width,
-      size.height - 30,
-    );
+        size.width / 2, size.height + 20, size.width, size.height - 30);
     path.lineTo(size.width, 0);
     path.close();
     return path;

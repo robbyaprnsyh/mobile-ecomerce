@@ -25,11 +25,10 @@ class Users {
   int? id;
   String? name;
   String? email;
-  Null? emailVerifiedAt;
+  String? emailVerifiedAt;
   String? noTelepon;
   String? jenisKelamin;
   String? tanggalLahir;
-  String? status;
   String? profile;
   String? role;
   String? createdAt;
@@ -43,7 +42,6 @@ class Users {
       this.noTelepon,
       this.jenisKelamin,
       this.tanggalLahir,
-      this.status,
       this.profile,
       this.role,
       this.createdAt,
@@ -57,7 +55,6 @@ class Users {
     noTelepon = json['no_telepon'];
     jenisKelamin = json['jenis_kelamin'];
     tanggalLahir = json['tanggal_lahir'];
-    status = json['status'];
     profile = json['profile'];
     role = json['role'];
     createdAt = json['created_at'];
@@ -73,7 +70,6 @@ class Users {
     data['no_telepon'] = this.noTelepon;
     data['jenis_kelamin'] = this.jenisKelamin;
     data['tanggal_lahir'] = this.tanggalLahir;
-    data['status'] = this.status;
     data['profile'] = this.profile;
     data['role'] = this.role;
     data['created_at'] = this.createdAt;

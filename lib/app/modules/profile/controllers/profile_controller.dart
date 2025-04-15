@@ -35,9 +35,6 @@ class ProfileController extends GetxController {
     }
   }
 
-  List<Users> get inactiveUsers =>
-      userList.where((u) => u.status == 'tidak aktif').toList();
-
   Users? getUserById(int id) {
     return userList.firstWhereOrNull((u) => u.id == id);
   }

@@ -1,3 +1,4 @@
+import 'package:ecommerce/app/modules/kategori/controllers/kategori_controller.dart';
 import 'package:ecommerce/app/modules/kategori/views/kategori_view.dart';
 import 'package:ecommerce/app/modules/produk/views/produk_view.dart';
 import 'package:ecommerce/app/modules/subKategori/views/sub_kategori_view.dart';
@@ -33,7 +34,7 @@ class IndexView extends GetView<DashboardController> {
         icon: Icons.payment,
         title: 'Transaksi',
         color: Colors.red,
-        page: const KategoriView(), 
+        page: const KategoriView(),
       ),
     ];
 
@@ -83,10 +84,17 @@ class IndexView extends GetView<DashboardController> {
 
   Widget _buildDashboardCard(BuildContext context, _DashboardItem item) {
     return InkWell(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => item.page),
-      ),
+      onTap: () {
+        if (!Get.isRegistered<KategoriController>()) {
+          Get.put(KategoriController());
+        }
+
+        // Navigasi ke halaman kategori
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => item.page),
+        );
+      },
       borderRadius: BorderRadius.circular(16),
       child: Ink(
         decoration: BoxDecoration(
