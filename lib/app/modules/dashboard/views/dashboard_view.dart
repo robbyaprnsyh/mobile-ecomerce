@@ -29,12 +29,16 @@ class DashboardView extends GetView<DashboardController> {
                   ),
                 );
           },
-          selectedItemColor: Colors.blue, // Ganti warna saat item terpilih
-          unselectedItemColor: Colors.grey, // Warna item yang tidak terpilih
+          selectedItemColor: Colors.blue, 
+          unselectedItemColor: Colors.grey, 
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Index',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_bag),
+              label: 'Produk',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),

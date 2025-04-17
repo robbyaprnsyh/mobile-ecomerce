@@ -171,7 +171,7 @@ class ProfileView extends GetView<ProfileController> {
                               backgroundImage: (user.profile != null &&
                                       user.profile!.isNotEmpty)
                                   ? NetworkImage(
-                                      'http://192.168.207.83:8000/gambar_profile/${user.profile}')
+                                      'http://192.168.0.213:8000/gambar_profile/${user.profile}')
                                   : null,
                               child: (user.profile == null ||
                                       user.profile!.isEmpty)

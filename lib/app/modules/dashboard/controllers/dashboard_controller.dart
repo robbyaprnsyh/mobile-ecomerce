@@ -1,6 +1,8 @@
 import 'package:ecommerce/app/data/produk_response.dart';
 import 'package:ecommerce/app/modules/dashboard/views/index_view.dart';
+import 'package:ecommerce/app/modules/dashboard/views/produk.dart';
 import 'package:ecommerce/app/modules/dashboard/views/profile_view.dart';
+import 'package:ecommerce/app/modules/produk/views/produk_view.dart';
 import 'package:ecommerce/app/utils/api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -66,6 +68,7 @@ void addProduk() async {
 
   final List<Widget> pages = [
     IndexView(),
+    Produk(),
     ProfileView(),
   ];
 
